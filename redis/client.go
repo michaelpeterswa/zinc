@@ -36,7 +36,10 @@ func (c *RedisClient) Ping(ctx context.Context) error {
 		AddTag("service", "redis").
 		AddField("ping", 1).
 		SetTime(time.Now())
-	c.influxWriter.WritePoint(ctx, p)
+	err = c.influxWriter.WritePoint(ctx, p)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -51,7 +54,10 @@ func (c *RedisClient) Set(ctx context.Context, key string, value string) error {
 		AddTag("service", "redis").
 		AddField("set", 1).
 		SetTime(time.Now())
-	c.influxWriter.WritePoint(ctx, p)
+	err = c.influxWriter.WritePoint(ctx, p)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -66,7 +72,10 @@ func (c *RedisClient) Get(ctx context.Context, key string) (string, error) {
 		AddTag("service", "redis").
 		AddField("get", 1).
 		SetTime(time.Now())
-	c.influxWriter.WritePoint(ctx, p)
+	err = c.influxWriter.WritePoint(ctx, p)
+	if err != nil {
+		return "", err
+	}
 	return value, nil
 }
 
@@ -81,7 +90,10 @@ func (c *RedisClient) Del(ctx context.Context, key string) error {
 		AddTag("service", "redis").
 		AddField("del", 1).
 		SetTime(time.Now())
-	c.influxWriter.WritePoint(ctx, p)
+	err = c.influxWriter.WritePoint(ctx, p)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -96,7 +108,10 @@ func (c *RedisClient) RPop(ctx context.Context, key string) (string, error) {
 		AddTag("service", "redis").
 		AddField("rpop", 1).
 		SetTime(time.Now())
-	c.influxWriter.WritePoint(ctx, p)
+	err = c.influxWriter.WritePoint(ctx, p)
+	if err != nil {
+		return "", err
+	}
 	return value, nil
 }
 
@@ -111,7 +126,10 @@ func (c *RedisClient) LPush(ctx context.Context, key string, value string) error
 		AddTag("service", "redis").
 		AddField("lpush", 1).
 		SetTime(time.Now())
-	c.influxWriter.WritePoint(ctx, p)
+	err = c.influxWriter.WritePoint(ctx, p)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -126,6 +144,9 @@ func (c *RedisClient) LLen(ctx context.Context, key string) (int64, error) {
 		AddTag("service", "redis").
 		AddField("llen", 1).
 		SetTime(time.Now())
-	c.influxWriter.WritePoint(ctx, p)
+	err = c.influxWriter.WritePoint(ctx, p)
+	if err != nil {
+		return 0, err
+	}
 	return value, nil
 }
