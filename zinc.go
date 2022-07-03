@@ -8,11 +8,26 @@ import (
 	"go.uber.org/zap"
 )
 
-func InitLogger() (*zap.Logger, error) {
-	logger, err := zap.NewProduction()
-	if err != nil {
-		return nil, err
+func InitLogger(logLevel string) (*zap.Logger, error) {
+	var (
+		logger *zap.Logger
+		err    error
+	)
+
+	if logLevel == "dev" {
+		logger, err = zap.NewDevelopment()
+		if err != nil {
+			return nil, err
+		}
+	} else if logLevel == "prod" {
+		logger, err = zap.NewProduction()
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		return nil, errors.New("invalid log level")
 	}
+
 	return logger, nil
 }
 
