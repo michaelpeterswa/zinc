@@ -43,9 +43,9 @@ func (c *RedisClient) Ping(ctx context.Context) error {
 	return nil
 }
 
-func (c *RedisClient) Set(ctx context.Context, key string, value string) error {
+func (c *RedisClient) Set(ctx context.Context, key string, value string, expiration time.Duration) error {
 	c.logger.Debug("redis set", zap.String("key", key), zap.String("value", value))
-	_, err := c.Client.Set(ctx, key, value, 0).Result()
+	_, err := c.Client.Set(ctx, key, value, expiration).Result()
 	if err != nil {
 		return err
 	}
